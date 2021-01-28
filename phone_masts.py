@@ -5,7 +5,11 @@ from pprint import pprint
 
 class PhoneMasts:
     def __init__(self):
-        self.csv_file = open('python_developer_test_dataset.csv', 'r')
+        try:
+            self.csv_file = open('python_developer_test_dataset.csv', 'r')
+        except Exception as e:
+            print("Unable to read in csv file.")
+            raise e
 
     def make_csv_reader(self):
         csv_reader = csv.DictReader(self.csv_file, delimiter=',')
@@ -20,10 +24,17 @@ class PhoneMasts:
                 `Current Rent` are pretty printed to the console.
         """
         csv_reader = self.make_csv_reader()
-        sorted_rows = sorted(
-            csv_reader, key=lambda row: float(row['Current Rent']), reverse=False
-        )
-        self.csv_file.close()
+
+        try:
+            sorted_rows = sorted(
+                csv_reader,
+                key=lambda row: float(row['Current Rent']),
+                reverse=False
+            )
+            self.csv_file.close()
+        except ValueError as e:
+            print(f"Failed to sort rows via Current Rent column. Error: {e}")
+            raise e
 
         pprint(sorted_rows[0:5])
         return sorted_rows[0:5]
@@ -32,7 +43,8 @@ class PhoneMasts:
         """
         This function deals with requirement 2.a of the test.
 
-        :return: 
+        :return: A list of all entries where the `Lease Years` is 25 is pretty
+                printed to the console.
         """
         csv_reader = self.make_csv_reader()
         rows = [row for row in csv_reader if row['Lease Years'] == '25']
@@ -45,10 +57,18 @@ class PhoneMasts:
         """
         This function deals with requirement 2.b of the test.
 
-        :return: 
+        :return: The total amount of rent currently being paid by the tenants
+                who have a 25 year lease.
         """
         rows = self.lease_years()
-        rent = [float(row['Current Rent']) for row in rows]
+        try:
+            rent = [float(row['Current Rent']) for row in rows]
+        except ValueError as e:
+            print(
+                f"Failed to convert one of the `Current Rent` entries to a float"
+            )
+            raise e
+
         self.csv_file.close()
         result = sum(rent)
 
@@ -62,7 +82,8 @@ class PhoneMasts:
         """
         This function deals with requirement 3 of the test.
 
-        :return: 
+        :return: A dict containing the amount of mast occupied by each tenant is
+                pretty printed to the console.
         """
         csv_reader = self.make_csv_reader()
         tenants = dict()
@@ -80,7 +101,8 @@ class PhoneMasts:
         """
         This function deals with requirement 4 of the test.
 
-        :return: 
+        :return: A list of all the rentals that started 1 st June 1999 and 31 st
+                August 2007 is pretty printed to the console.
         """
         start_date = datetime.strptime('1 Jun 1999', '%d %b %Y')
         end_date = datetime.strptime('31 Aug 2007', '%d %b %Y')
@@ -88,9 +110,19 @@ class PhoneMasts:
         csv_reader = self.make_csv_reader()
         rows = list()
         for row in csv_reader:
-            lease_start = datetime.strptime(row['Lease Start Date'], '%d %b %Y')
-            lease_end = datetime.strptime(row['Lease End Date'], '%d %b %Y')
-            if lease_start >= start_date and lease_start <= end_date:
+            try:
+                lease_start = datetime.strptime(
+                    row['Lease Start Date'], '%d %b %Y'
+                )
+                lease_end = datetime.strptime(row['Lease End Date'], '%d %b %Y')
+            except ValueError as e:
+                print(
+                    f"Failed to convert lease date to a datetime object. Error:"
+                    f" {e}"
+                )
+                raise e
+
+            if start_date <= lease_start <= end_date:
                 row['Lease Start Date'] = datetime.strftime(
                     lease_start, '%d/%m/%Y'
                 )

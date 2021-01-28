@@ -67,6 +67,23 @@ SUCCESS_TEST_DATA = [
         "Current Rent": "370680.00",
     }
 ]
+ERROR_TEST_DATA = [
+    {
+        "Tenant Name": "Ultron",
+        "Lease Start Date": "02 January 2008",
+        "Lease End Date": "25 April 2019",
+        "Lease Years": "25",
+        "Current Rent": "I was designed to save the world.",
+    },
+    {
+        "Tenant Name": "Ronan",
+        "Lease Start Date": "02 August 2008",
+        "Lease End Date": "25 April 2019",
+        "Lease Years": "25",
+        "Current Rent": "23",
+    }
+
+]
 CURRENT_RENT_EXPECTED = [
     {
         "Tenant Name": "Bruce Banner",
@@ -142,42 +159,59 @@ LEASE_START_EXPECTED = [
 ]
 
 
-
 class TestPhoneMasts(TestCase):
     def setUp(self):
         self.PhoneMasts = PhoneMasts()
 
-    def _setup_mock(self):
+    def _setup_mock(self, test_data):
         mock_csv_reader = Mock()
-        mock_csv_reader.return_value = SUCCESS_TEST_DATA
+        mock_csv_reader.return_value = test_data
         self.PhoneMasts.make_csv_reader = mock_csv_reader
 
     def test_current_rent_success(self):
-        self._setup_mock()
+        self._setup_mock(SUCCESS_TEST_DATA)
 
         result = self.PhoneMasts.current_rent()
         self.assertEqual(CURRENT_RENT_EXPECTED, result)
-    
+
     def test_lease_years_success(self):
-        self._setup_mock()
+        self._setup_mock(SUCCESS_TEST_DATA)
 
         result = self.PhoneMasts.lease_years()
         self.assertEqual(LEASE_YEARS_EXPECTED, result)
-    
+
     def test_total_rent_success(self):
-        self._setup_mock()
+        self._setup_mock(SUCCESS_TEST_DATA)
 
         result = self.PhoneMasts.total_rent()
         self.assertEqual(TOTAL_RENT_EXPECTED, result)
-    
+
     def test_masts_per_tenant_success(self):
-        self._setup_mock()
+        self._setup_mock(SUCCESS_TEST_DATA)
 
         result = self.PhoneMasts.masts_per_tenant()
         self.assertEqual(MASTS_PER_EXPECTED, result)
-    
+
     def test_lease_start_date_success(self):
-        self._setup_mock()
+        self._setup_mock(SUCCESS_TEST_DATA)
 
         result = self.PhoneMasts.lease_start_date()
         self.assertEqual(LEASE_START_EXPECTED, result)
+
+    def test_current_rent_failure(self):
+        self._setup_mock(ERROR_TEST_DATA)
+
+        with self.assertRaises(ValueError):
+            self.PhoneMasts.current_rent()
+
+    def test_total_rent_failure(self):
+        self._setup_mock(ERROR_TEST_DATA)
+
+        with self.assertRaises(ValueError):
+            self.PhoneMasts.total_rent()
+
+    def test_lease_start_date_failure(self):
+        self._setup_mock(ERROR_TEST_DATA)
+
+        with self.assertRaises(ValueError):
+            self.PhoneMasts.lease_start_date()
