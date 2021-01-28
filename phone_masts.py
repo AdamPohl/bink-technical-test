@@ -3,9 +3,11 @@ from datetime import datetime
 from pprint import pprint
 
 
-class PhoneMasts():
-    def make_csv_reader(self):
+class PhoneMasts:
+    def __init__(self):
         self.csv_file = open('python_developer_test_dataset.csv', 'r')
+
+    def make_csv_reader(self):
         csv_reader = csv.DictReader(self.csv_file, delimiter=',')
 
         return csv_reader
@@ -50,7 +52,10 @@ class PhoneMasts():
         self.csv_file.close()
         result = sum(rent)
 
-        pprint(result)
+        pprint(
+            f"The total amount of rent paid by the {len(rows)} tenant(s) is: "
+            f"£{result}"
+        )
         return result
 
     def masts_per_tenant(self):

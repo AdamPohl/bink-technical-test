@@ -5,8 +5,9 @@
 2. Ability to access a terminal / command line on your machine and have the permissions to run scripts.
 
 ### How it works
-In a terminal run the command `python functions.py` and the words `Hi there, what requirement would you like to see? `
-will appear, there are then 7 different phrases you can enter that will make it run one function, all of the functions or exit the script.
+In a terminal run the command `python phone_masts.py` and the words  
+`Hi there, what requirement would you like to see? `  
+will appear. There are then 7 different phrases you can enter that will make it run one function, all the functions or exit the script.
 
 * To get the output for requirement 1 enter the phrase `Current rent`.
 * To get the output for requirement 2.a enter the phrase `Lease years`.
