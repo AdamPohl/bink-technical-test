@@ -16,3 +16,6 @@ will appear. There are then 7 different phrases you can enter that will make it 
 * To get the output for requirement 4 enter the phrase `Lease start date`.
 * To get the output for every requirement enter the phrase `All`.
 * To exit the script enter the phrase `exit`.
+
+### Running the unittests
+Run the command `python -m unittest phone_masts_test.py` in a terminal window that is located inside this project.
