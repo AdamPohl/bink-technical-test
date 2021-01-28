@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from pprint import pprint
 
 
 def current_rent():
@@ -11,6 +12,7 @@ def current_rent():
             reverse=False
         )
 
+    pprint(sorted_rows[0:5])
     return sorted_rows[0:5]
 
 
@@ -19,6 +21,7 @@ def lease_years():
         csv_reader = csv.DictReader(csv_file, delimiter=',')
         rows = [row for row in csv_reader if row['Lease Years'] == '25']
 
+    pprint(rows)
     return rows
 
 
@@ -27,6 +30,7 @@ def total_rent():
     rent = [float(row['Current Rent']) for row in rows]
     result = sum(rent)
 
+    pprint(result)
     return result
 
 
@@ -40,6 +44,7 @@ def masts_per_tenant():
             else:
                 tenants[row['Tenant Name']] = 1
 
+    pprint(tenants)
     return tenants
 
 
@@ -54,13 +59,39 @@ def lease_start_date():
             lease_start = datetime.strptime(row['Lease Start Date'], '%d %b %Y')
             lease_end = datetime.strptime(row['Lease End Date'], '%d %b %Y')
             if lease_start >= start_date and lease_start <= end_date:
-                row['Lease Start Date'] = datetime.datetime.strftime(
+                row['Lease Start Date'] = datetime.strftime(
                     lease_start, '%d/%m/%Y'
                 )
-                row['Lease End Date'] = datetime.datetime.strftime(
+                row['Lease End Date'] = datetime.strftime(
                     lease_end, '%d/%m/%Y'
                 )
                 rows.append(row)
 
+    pprint(rows)
     return rows
 
+
+if __name__ == '__main__':
+    option = input('Hi there, what requirement would you like to see? ')
+
+    while option != "exit":
+        if option == "Current rent":
+            current_rent()
+        elif option == "Lease years":
+            lease_years()
+        elif option == "Total rent":
+            total_rent()
+        elif option == "Masts per tenant":
+            masts_per_tenant()
+        elif option == "Lease start date":
+            lease_start_date()
+        elif option == "All":
+            current_rent()
+            lease_years()
+            total_rent()
+            masts_per_tenant()
+            lease_start_date()
+
+        option = input(
+            '\nGreat, is there another requirement you would like to see? '
+        )
