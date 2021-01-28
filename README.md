@@ -1,8 +1,8 @@
 ## Bink Python technical test
 
 ### Pre-requisites
-> Python 3.6+ installed on machine
-> Ability to access a terminal / command line on machine and have the permissions to run scripts
+1. Python 3.6+ installed on your machine.
+2. Ability to access a terminal / command line on your machine and have the permissions to run scripts.
 
 ### How it works
 In a terminal run the command `python functions.py` and the words `Hi there, what requirement would you like to see? `
