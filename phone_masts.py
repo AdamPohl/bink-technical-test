@@ -31,7 +31,6 @@ class PhoneMasts:
                 key=lambda row: float(row['Current Rent']),
                 reverse=False
             )
-            self.csv_file.close()
         except ValueError as e:
             print(f"Failed to sort rows via Current Rent column. Error: {e}")
             raise e
@@ -48,7 +47,6 @@ class PhoneMasts:
         """
         csv_reader = self.make_csv_reader()
         rows = [row for row in csv_reader if row['Lease Years'] == '25']
-        self.csv_file.close()
 
         pprint(rows)
         return rows
@@ -69,7 +67,6 @@ class PhoneMasts:
             )
             raise e
 
-        self.csv_file.close()
         result = sum(rent)
 
         pprint(
@@ -92,7 +89,6 @@ class PhoneMasts:
                 tenants[row['Tenant Name']] += 1
             else:
                 tenants[row['Tenant Name']] = 1
-        self.csv_file.close()
 
         pprint(tenants)
         return tenants
@@ -128,7 +124,6 @@ class PhoneMasts:
                 )
                 row['Lease End Date'] = datetime.strftime(lease_end, '%d/%m/%Y')
                 rows.append(row)
-        self.csv_file.close()
 
         pprint(rows)
         return rows
@@ -143,6 +138,9 @@ class PhoneMasts:
         self.masts_per_tenant()
         print('\n')
         self.lease_start_date()
+
+    def end(self):
+        self.csv_file.close()
 
 
 if __name__ == '__main__':
@@ -162,6 +160,9 @@ if __name__ == '__main__':
             phone_masts.lease_start_date()
         elif option == "All":
             phone_masts.all()
+        elif option == 'End':
+            phone_masts.end()
+            option= "exit"
 
         option = input(
             '\nGreat, is there another requirement you would like to see? '

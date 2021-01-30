@@ -15,7 +15,7 @@ will appear. There are then 7 different phrases you can enter that will make it 
 * To get the output for requirement 3 enter the phrase `Masts per tenant`.
 * To get the output for requirement 4 enter the phrase `Lease start date`.
 * To get the output for every requirement enter the phrase `All`.
-* To exit the script enter the phrase `exit`.
+* To exit the script enter the phrase `end`.
 
 ### Running the unittests
 Run the command `python -m unittest phone_masts_test.py` in a terminal window that is located inside this project.
