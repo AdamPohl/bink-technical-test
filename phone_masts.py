@@ -160,10 +160,11 @@ if __name__ == '__main__':
             phone_masts.lease_start_date()
         elif option == "All":
             phone_masts.all()
-        elif option == 'End':
-            phone_masts.end()
-            option= "exit"
 
         option = input(
             '\nGreat, is there another requirement you would like to see? '
         )
+
+        if option == 'end':
+            phone_masts.end()
+            option = "exit"
